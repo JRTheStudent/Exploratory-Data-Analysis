@@ -38,13 +38,13 @@ plot(
     ,xlab="Year"
     ,ylab="Total PM2.5 Emissions (Tons)"
 )
-abline(lm(Emissions ~ year, pData), col = "red")
+abline(lm(Emissions ~ year, pData), col = "blue")
 legend(
     "topright"
     ,legend = c("PM 2.5", "Linear Model")
     ,text.col = "black"
     ,lty = c(0,1)
     ,pch = c(1,NA)
-    ,col = c("black", "red")
+    ,col = c("black", "blue")
 )
 dev.off()

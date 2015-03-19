@@ -41,10 +41,11 @@ plot <- qplot(
     ,geom = c("point", "smooth")
     ,method = "lm"
     ,se = F
-    ,facets = . ~ type
+    ,color = type
     ,main = "Total Baltimore City PM2.5 Emissions by Year and Type"
     ,xlab = "Year"
     ,ylab = "Total PM2.5 Emissions (Tons)"
 )
 plot + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+plot + labs(color = "Emission Source")
 dev.off()
