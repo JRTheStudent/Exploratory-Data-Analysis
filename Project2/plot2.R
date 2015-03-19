@@ -2,10 +2,10 @@
 ## https://class.coursera.org/exdata-012/human_grading/view/courses/973506
 ## /assessments/4/submissions
 
-## Question 1:
-## Have total emissions from PM2.5 decreased in the United States from 1999 to 
-## 2008? Using the base plotting system, make a plot showing the total PM2.5 
-# emission from all sources for each of the years 1999, 2002, 2005, and 2008.
+## Question 2:
+## Have total emissions from PM2.5 decreased in the Baltimore City, Maryland
+## (fips == "24510") from 1999 to 2008? Use the base plotting system to make a
+## plot answering this question.
 
 library(plyr)
 library(dplyr)
@@ -26,15 +26,15 @@ data <- join(
     ,by = "SCC"
 )
 
-pData <- data[c("Emissions", "year")]
+pData <- data[data$fips == 24510, c("Emissions", "year")]
 pData <- pData %>% group_by(year) %>% summarize(sum(Emissions))
 names(pData) <- c("year", "Emissions")
 
-png(filename = "./plot1.png")
+png(filename = "./plot2.png")
 plot(
     pData$year
     ,pData$Emissions
-    ,main = "Total U.S. PM2.5 Emissions by Year"
+    ,main = "Total Baltimore City PM2.5 Emissions by Year"
     ,xlab="Year"
     ,ylab="Total PM2.5 Emissions (Tons)"
 )
