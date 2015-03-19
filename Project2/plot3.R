@@ -46,6 +46,6 @@ plot <- qplot(
     ,xlab = "Year"
     ,ylab = "Total PM2.5 Emissions (Tons)"
 )
-plot + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+plot <- plot + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 plot + labs(color = "Emission Source")
 dev.off()
