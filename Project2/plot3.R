@@ -29,8 +29,12 @@ data <- join(
     ,by = "SCC"
 )
 
-pData <- data[data$fips == 24510, c("Emissions", "type", "year")]
-pData <- pData %>% group_by(year, type) %>% summarize(sum(Emissions))
+pData <- data %>%
+    filter(fips == "24510") %>%
+    select(Emissions, type, year) %>%
+    group_by(year, type) %>%
+    summarize(sum(Emissions))
+
 names(pData) <- c("year", "type", "Emissions")
 
 png(filename = "./plot3.png")

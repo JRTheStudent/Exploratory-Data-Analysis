@@ -25,13 +25,13 @@ data <- join(
     ,readRDS("./data/Source_Classification_Code.rds")
     ,by = "SCC"
 )
-pData <- data[data$fips == 24510,]
-pData <- data[
-    grep("motor|vehicle", data$Short.Name, ignore.case = T)
-    ,c("Emissions", "year")
-    ]
 
-pData <- pData %>% group_by(year) %>% summarize(sum(Emissions))
+pData <- data %>%
+    filter(grepl("motor|vehicle", Short.Name, ignore.case = T)) %>%
+    select(year, Emissions) %>%
+    group_by(year) %>%
+    summarize(sum(Emissions))
+
 names(pData) <- c("year", "Emissions")
 
 png(filename = "./plot5.png")

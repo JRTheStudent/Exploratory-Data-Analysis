@@ -25,12 +25,15 @@ data <- join(
     ,readRDS("./data/Source_Classification_Code.rds")
     ,by = "SCC"
 ) 
-pData <- data[
-    grep("(?=.*coal)(?=.*comb)", data$Short.Name, ignore.case = T, perl = T)
-    ,c("Emissions", "year")
-]
 
-pData <- pData %>% group_by(year) %>% summarize(sum(Emissions))
+regExp <- "(?=.*coal)(?=.*comb)"
+
+pData <- data %>%
+    filter(grepl(regExp, Short.Name, ignore.case = T, perl = T)) %>%
+    select(year, Emissions) %>%
+    group_by(year) %>%
+    summarize(sum(Emissions))
+
 names(pData) <- c("year", "Emissions")
 
 png(filename = "./plot4.png")
