@@ -20,13 +20,24 @@ library(ggplot2)
 ## unzip(dFile, exdir = "./data")
 ## file.remove(dFile)
 
+## Read in the data by joining the data sets on "SCC."
+
 data <- join(
     readRDS("./data/summarySCC_PM25.rds")
     ,readRDS("./data/Source_Classification_Code.rds")
     ,by = "SCC"
 ) 
 
+## Define the Perl-compatible regular expression to filter on any "Short.Name" 
+## containing the character strings "coal" or "comb" (somtimes used in the data 
+## set as the abbreviation for "combustion").  This regular expression (along
+## with the "ignore.case = T" parameter used in grepl) will match on any
+## "Short.Name" containing both of these strings in either order 
+## case-insensitively.
+
 regExp <- "(?=.*coal)(?=.*comb)"
+
+## Create plot data via filter, select, group_by and summarize (all from dplyr).
 
 pData <- data %>%
     filter(grepl(regExp, Short.Name, ignore.case = T, perl = T)) %>%
@@ -34,7 +45,11 @@ pData <- data %>%
     group_by(year) %>%
     summarize(sum(Emissions))
 
+## Reset the plot data names to facilitate selection and display in the plot.
+
 names(pData) <- c("year", "Emissions")
+
+## Create the plot.
 
 png(filename = "./plot4.png")
 plot <- qplot(

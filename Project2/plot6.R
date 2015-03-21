@@ -11,7 +11,6 @@
 library(plyr)
 library(dplyr)
 library(ggplot2)
-library(grid)
 
 ## Setup - only required once; comment out to expedite development.
 
@@ -23,11 +22,18 @@ library(grid)
 ## unzip(dFile, exdir = "./data")
 ## file.remove(dFile)
 
+## Read in the data by joining the data sets on "SCC."
+
 data <- join(
     readRDS("./data/summarySCC_PM25.rds")
     ,readRDS("./data/Source_Classification_Code.rds")
     ,by = "SCC"
 )
+
+## Create plot data via filter, select, group_by and summarize (all from dplyr).
+## The regular expression used below will match on any "Short.Name" containing
+## either character of the character strings "motor" or "vehicle" case-
+## insensitively.
 
 pData <- data %>%
     filter(fips %in% c("24510","06037") &
@@ -37,6 +43,9 @@ pData <- data %>%
     group_by(fips, year) %>%
     summarize(sum(Emissions))
 
+## Reset the plot data names and "fips" values to facilitate selection and
+## display in the plot.
+
 names(pData) <- c("fips", "year", "Emissions")
 
 pData$fips <- mapvalues(
@@ -44,6 +53,8 @@ pData$fips <- mapvalues(
     ,c("24510", "06037")
     ,c("Baltimore City", "Los Angeles County")
 )
+
+## Create the plot.
 
 main <- paste0("Baltimore City and Los Angeles County\n"
     ,"PM2.5 Motor Vehicle Emissions by Year"

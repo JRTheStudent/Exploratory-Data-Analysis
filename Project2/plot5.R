@@ -20,11 +20,18 @@ library(ggplot2)
 ## unzip(dFile, exdir = "./data")
 ## file.remove(dFile)
 
+## Read in the data by joining the data sets on "SCC."
+
 data <- join(
     readRDS("./data/summarySCC_PM25.rds")
     ,readRDS("./data/Source_Classification_Code.rds")
     ,by = "SCC"
 )
+
+## Create plot data via filter, select, group_by and summarize (all from dplyr).
+## The regular expression used below will match on any "Short.Name" containing
+## either character of the character strings "motor" or "vehicle" case-
+## insensitively.
 
 pData <- data %>%
     filter(grepl("motor|vehicle", Short.Name, ignore.case = T)) %>%
@@ -32,7 +39,11 @@ pData <- data %>%
     group_by(year) %>%
     summarize(sum(Emissions))
 
+## Reset the plot data names to facilitate selection and display in the plot.
+
 names(pData) <- c("year", "Emissions")
+
+## Create the plot.
 
 png(filename = "./plot5.png")
 plot <- qplot(

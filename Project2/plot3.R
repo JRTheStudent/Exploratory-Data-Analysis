@@ -23,19 +23,35 @@ library(ggplot2)
 ## unzip(dFile, exdir = "./data")
 ## file.remove(dFile)
 
+## Read in the data by joining the data sets on "SCC."
+
 data <- join(
     readRDS("./data/summarySCC_PM25.rds")
     ,readRDS("./data/Source_Classification_Code.rds")
     ,by = "SCC"
 )
 
+## Create plot data via filter, select, group_by and summarize (all from dplyr).
+
 pData <- data %>%
     filter(fips == "24510") %>%
-    select(Emissions, type, year) %>%
+    select(year, type, Emissions) %>%
     group_by(year, type) %>%
     summarize(sum(Emissions))
 
+## Reset the plot data names to facilitate selection and display in the plot.
+
 names(pData) <- c("year", "type", "Emissions")
+
+## Order plot data for more logical groupings in the plot.
+
+pData$type <- factor(
+    p$type
+    ,levels = c("POINT", "NONPOINT", "ON-ROAD", "NON-ROAD")
+)
+pData <- pData[do.call(order,pData[c("year", "type")]),]
+
+## Create the plot.
 
 png(filename = "./plot3.png")
 plot <- qplot(

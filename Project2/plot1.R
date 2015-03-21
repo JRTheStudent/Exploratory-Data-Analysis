@@ -20,18 +20,26 @@ library(dplyr)
 ## unzip(dFile, exdir = "./data")
 ## file.remove(dFile)
 
+## Read in the data by joining the data sets on "SCC."
+
 data <- join(
     readRDS("./data/summarySCC_PM25.rds")
     ,readRDS("./data/Source_Classification_Code.rds")
     ,by = "SCC"
 )
 
+## Create plot data via select, group_by and summarize (all from dplyr).
+
 pData <- data %>%
-    select(Emissions, year) %>%
+    select(year, Emissions) %>%
     group_by(year) %>%
     summarize(sum(Emissions))
 
+## Reset the plot data names to facilitate selection in the plot.
+
 names(pData) <- c("year", "Emissions")
+
+## Create the plot.
 
 png(filename = "./plot1.png")
 plot(
