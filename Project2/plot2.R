@@ -43,6 +43,7 @@ names(pData) <- c("year", "Emissions")
 ## Create the plot.
 
 png(filename = "./plot2.png")
+
 plot(
     pData$year
     ,pData$Emissions

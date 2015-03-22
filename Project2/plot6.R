@@ -11,6 +11,7 @@
 library(plyr)
 library(dplyr)
 library(ggplot2)
+library(grid)
 
 ## Setup - only required once; comment out to expedite development.
 
@@ -60,7 +61,7 @@ main <- paste0("Baltimore City and Los Angeles County\n"
     ,"PM2.5 Motor Vehicle Emissions by Year"
 )
 png(filename = "./plot6.png")
-plot <- qplot(
+qplot(
     year
     ,Emissions
     ,data = pData
@@ -71,9 +72,67 @@ plot <- qplot(
     ,main = main
     ,xlab = "Year"
     ,ylab = "PM2.5 Motor Vehicle Emissions (Tons)"
-)
-plot + 
+) + 
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     theme(plot.title = element_text(hjust = 0.5)) +
-    labs(color = "Emission Source")
+    labs(color = "Emission Source") +
+    geom_errorbar(
+        aes(
+            x = min(pData$year - .25)
+            ,ymax = max(pData[pData$fips == "Los Angeles County", "Emissions"])
+            ,ymin = min(pData[pData$fips == "Los Angeles County", "Emissions"])
+            ,width = .25
+        )
+        ,color = "#00BFC4"
+    ) +
+    geom_errorbar(
+        aes(
+            x = max(pData$year + .25)
+            ,ymax = max(pData[pData$fips == "Baltimore City", "Emissions"])
+            ,ymin = min(pData[pData$fips == "Baltimore City", "Emissions"])
+            ,width = .25
+        )
+        ,color = "#F8766D"
+    ) +
+    geom_segment(
+        aes(
+            x = 2003
+            ,xend = min(pData$year - .25)
+            ,y = 1025
+            ,yend = (
+                max(pData[pData$fips == "Los Angeles County", "Emissions"]) -
+                min(pData[pData$fips == "Los Angeles County", "Emissions"])
+            ) /2 + min(pData[pData$fips == "Los Angeles County", "Emissions"])              
+        )
+        ,arrow = arrow(angle = 15, length = unit(0.1, "inches"))
+        ,color = "black"
+    ) +
+    geom_segment(
+        aes(
+            x = 2004
+            ,xend = max(pData$year + .25)
+            ,y = 195
+            ,yend = (
+                max(pData[pData$fips == "Baltimore City", "Emissions"]) -
+                min(pData[pData$fips == "Baltimore City", "Emissions"])
+            ) /2 + min(pData[pData$fips == "Baltimore City", "Emissions"])
+        )
+        ,arrow = arrow(angle = 15, length = unit(0.1, "inches"))
+        ,color = "black"
+    ) +
+    annotate(
+        "text"
+        ,label = "Los Angeles County change of\n~509 tons of emissions per year"
+        ,x = 2003
+        ,y = 975
+        ,size = 4
+    ) +
+    annotate(
+        "text"
+        ,label = "Baltimore City change of\n~48 tons of emissions per year"
+        ,x = 2004
+        ,y = 265
+        ,size = 4
+    )
+
 dev.off()

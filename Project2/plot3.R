@@ -54,7 +54,8 @@ pData <- pData[do.call(order,pData[c("year", "type")]),]
 ## Create the plot.
 
 png(filename = "./plot3.png")
-plot <- qplot(
+
+qplot(
     year
     ,Emissions
     ,data = pData
@@ -65,7 +66,8 @@ plot <- qplot(
     ,main = "Total Baltimore City PM2.5 Emissions by Year and Type"
     ,xlab = "Year"
     ,ylab = "Total PM2.5 Emissions (Tons)"
-)
-plot <- plot + theme(axis.text.x = element_text(angle = 45, hjust = 1))
-plot + labs(color = "Emission Source")
+) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(color = "Emission Source")
+
 dev.off()

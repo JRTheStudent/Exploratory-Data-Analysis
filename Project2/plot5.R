@@ -46,7 +46,8 @@ names(pData) <- c("year", "Emissions")
 ## Create the plot.
 
 png(filename = "./plot5.png")
-plot <- qplot(
+
+qplot(
     year
     ,Emissions
     ,data = pData
@@ -56,6 +57,7 @@ plot <- qplot(
     ,main = "Baltimore City PM2.5 Motor Vehicle Emissions by Year"
     ,xlab = "Year"
     ,ylab = "Baltimore City PM2.5 Motor Vehicle Emissions (Tons)"
-)
-plot + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 dev.off()
