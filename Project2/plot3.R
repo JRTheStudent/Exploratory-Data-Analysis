@@ -46,7 +46,7 @@ names(pData) <- c("year", "type", "Emissions")
 ## Order plot data for more logical groupings in the plot.
 
 pData$type <- factor(
-    p$type
+    pData$type
     ,levels = c("POINT", "NONPOINT", "ON-ROAD", "NON-ROAD")
 )
 pData <- pData[do.call(order,pData[c("year", "type")]),]
