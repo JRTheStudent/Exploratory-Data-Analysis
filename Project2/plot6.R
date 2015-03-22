@@ -56,9 +56,6 @@ pData$fips <- mapvalues(
 
 ## Create the plot.
 
-main <- paste0("Baltimore City and Los Angeles County\n"
-    ,"PM2.5 Motor Vehicle Emissions by Year"
-)
 png(filename = "./plot6.png")
 
 plot <- qplot(
@@ -69,7 +66,10 @@ plot <- qplot(
     ,method = "lm"
     ,se = F
     ,color = fips
-    ,main = main
+    ,main = paste0(
+        "Baltimore City and Los Angeles County\n"
+        ,"PM2.5 Motor Vehicle Emissions by Year"
+    )
     ,xlab = "Year"
     ,ylab = "PM2.5 Motor Vehicle Emissions (Tons)"
 ) + 
@@ -120,14 +120,14 @@ plot <- qplot(
     ) +
     annotate(
         "text"
-        ,label = "Los Angeles County change of\n~509 tons of emissions per year"
+        ,label = "Los Angeles County drop of\n~509 tons of emissions per year"
         ,x = 2003
         ,y = 975
         ,size = 4
     ) +
     annotate(
         "text"
-        ,label = "Baltimore City change of\n~48 tons of emissions per year"
+        ,label = "Baltimore City drop of\n~48 tons of emissions per year"
         ,x = 2004
         ,y = 265
         ,size = 4

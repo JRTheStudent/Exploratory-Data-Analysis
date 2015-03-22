@@ -12,6 +12,7 @@
 library(plyr)
 library(dplyr)
 library(ggplot2)
+library(grid)
 
 ## Setup - only required once; comment out to expedite development.
 
@@ -59,17 +60,37 @@ plot <- qplot(
     year
     ,Emissions
     ,data = pData
-    ,geom = c("point", "smooth")
-    ,method = "lm"
-    ,se = F
+    ,geom = "line"
     ,color = type
     ,main = "Total Baltimore City PM2.5 Emissions by Year and Type"
     ,xlab = "Year"
     ,ylab = "Total PM2.5 Emissions (Tons)"
 ) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(color = "Emission Source")
-
+    labs(color = "Emission Source") +
+    geom_segment(
+        aes(
+            x = 2005
+            ,xend = 2007.95
+            ,y = 1800
+            ,yend = as.numeric(
+                pData[pData$type == "POINT" & pData$year == "2008", "Emissions"]
+                + 50
+            )
+        )
+        ,arrow = arrow(angle = 20, length = unit(.1, "inches"))
+        ,color = "black"
+    ) + annotate(
+        "text"
+        ,label = paste0(
+            "Type POINT increased by ~49 tons per year\n"
+            ,"while all others types decreased"
+        )
+        ,x = 2004.5
+        ,y = 1900
+        ,size = 4
+    )
+    
 print(plot)
 
 dev.off()
