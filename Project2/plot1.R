@@ -46,17 +46,10 @@ png(filename = "./plot1.png")
 plot(
     pData$year
     ,pData$Emissions
-    ,main = "Total U.S. PM2.5 Emissions by Year"
+    ,type = "b"
+    ,main = "U.S. Total PM2.5 Emissions by Year"
     ,xlab="Year"
-    ,ylab="Total PM2.5 Emissions (Tons)"
+    ,ylab="PM2.5 Emissions (Tons)"
 )
-abline(lm(Emissions ~ year, pData), col = "blue")
-legend(
-    "topright"
-    ,legend = c("PM 2.5", "Linear Model")
-    ,text.col = "black"
-    ,lty = c(0,1)
-    ,pch = c(1,NA)
-    ,col = c("black", "blue")
-)
+
 dev.off()

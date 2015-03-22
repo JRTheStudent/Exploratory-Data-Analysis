@@ -57,12 +57,10 @@ plot <- qplot(
     year
     ,Emissions
     ,data = pData
-    ,geom = c("point", "smooth")
-    ,method = "lm"
-    ,se = F
-    ,main = "Total U.S. Coal Combustion PM2.5 Emissions by Year"
+    ,geom = c("point", "line")
+    ,main = "U.S. Coal Combustion PM2.5 Emissions by Year"
     ,xlab = "Year"
-    ,ylab = "Total U.S. Coal Combustion PM2.5 Emissions (Tons)"
+    ,ylab = "PM2.5 Emissions (Tons)"
 ) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 

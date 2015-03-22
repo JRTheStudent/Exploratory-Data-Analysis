@@ -53,12 +53,10 @@ plot <- qplot(
     year
     ,Emissions
     ,data = pData
-    ,geom = c("point", "smooth")
-    ,method = "lm"
-    ,se = F
-    ,main = "Baltimore City PM2.5 Motor Vehicle Emissions by Year"
+    ,geom = c("point", "line")
+    ,main = "Baltimore City Motor Vehicle PM2.5 Emissions by Year"
     ,xlab = "Year"
-    ,ylab = "Baltimore City PM2.5 Motor Vehicle Emissions (Tons)"
+    ,ylab = "PM2.5 Emissions (Tons)"
 ) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
