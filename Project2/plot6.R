@@ -11,7 +11,6 @@
 library(plyr)
 library(dplyr)
 library(ggplot2)
-library(grid)
 
 ## Setup - only required once; comment out to expedite development.
 
@@ -26,9 +25,9 @@ library(grid)
 ## Read in the data by joining the data sets on "SCC."
 
 data <- join(
-    readRDS("./data/summarySCC_PM25.rds")
-    ,readRDS("./data/Source_Classification_Code.rds")
-    ,by = "SCC"
+   readRDS("./data/summarySCC_PM25.rds")
+   ,readRDS("./data/Source_Classification_Code.rds")
+   ,by = "SCC"
 )
 
 ## Create plot data via filter, select, group_by and summarize (all from dplyr).
@@ -61,7 +60,8 @@ main <- paste0("Baltimore City and Los Angeles County\n"
     ,"PM2.5 Motor Vehicle Emissions by Year"
 )
 png(filename = "./plot6.png")
-qplot(
+
+plot <- qplot(
     year
     ,Emissions
     ,data = pData
@@ -104,7 +104,6 @@ qplot(
                 min(pData[pData$fips == "Los Angeles County", "Emissions"])
             ) /2 + min(pData[pData$fips == "Los Angeles County", "Emissions"])              
         )
-        ,arrow = arrow(angle = 15, length = unit(0.1, "inches"))
         ,color = "black"
     ) +
     geom_segment(
@@ -117,7 +116,6 @@ qplot(
                 min(pData[pData$fips == "Baltimore City", "Emissions"])
             ) /2 + min(pData[pData$fips == "Baltimore City", "Emissions"])
         )
-        ,arrow = arrow(angle = 15, length = unit(0.1, "inches"))
         ,color = "black"
     ) +
     annotate(
@@ -134,5 +132,7 @@ qplot(
         ,y = 265
         ,size = 4
     )
+
+print(plot)
 
 dev.off()

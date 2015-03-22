@@ -53,7 +53,7 @@ names(pData) <- c("year", "Emissions")
 
 png(filename = "./plot4.png")
 
-qplot(
+plot <- qplot(
     year
     ,Emissions
     ,data = pData
@@ -65,5 +65,7 @@ qplot(
     ,ylab = "Total U.S. Coal Combustion PM2.5 Emissions (Tons)"
 ) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(plot)
 
 dev.off()

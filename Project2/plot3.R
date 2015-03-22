@@ -55,7 +55,7 @@ pData <- pData[do.call(order,pData[c("year", "type")]),]
 
 png(filename = "./plot3.png")
 
-qplot(
+plot <- qplot(
     year
     ,Emissions
     ,data = pData
@@ -69,5 +69,7 @@ qplot(
 ) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     labs(color = "Emission Source")
+
+print(plot)
 
 dev.off()

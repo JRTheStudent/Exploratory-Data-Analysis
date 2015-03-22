@@ -34,7 +34,9 @@ data <- join(
 ## insensitively.
 
 pData <- data %>%
-    filter(grepl("motor|vehicle", Short.Name, ignore.case = T)) %>%
+    filter(fips == "24510" &
+        grepl("motor|vehicle", Short.Name, ignore.case = T)
+    ) %>%
     select(year, Emissions) %>%
     group_by(year) %>%
     summarize(sum(Emissions))
@@ -47,7 +49,7 @@ names(pData) <- c("year", "Emissions")
 
 png(filename = "./plot5.png")
 
-qplot(
+plot <- qplot(
     year
     ,Emissions
     ,data = pData
@@ -59,5 +61,7 @@ qplot(
     ,ylab = "Baltimore City PM2.5 Motor Vehicle Emissions (Tons)"
 ) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(plot)
 
 dev.off()
